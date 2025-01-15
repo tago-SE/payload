@@ -32,7 +32,7 @@ export default buildConfig({
       },
       allowContainerCreate: process.env.AZURE_STORAGE_ALLOW_CONTAINER_CREATE === 'true',
       baseURL: process.env.AZURE_STORAGE_ACCOUNT_BASEURL,
-      connectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,
+      connection: process.env.AZURE_STORAGE_CONNECTION_STRING,
       containerName: process.env.AZURE_STORAGE_CONTAINER_NAME,
     }),
   ],
@@ -47,5 +47,5 @@ export default buildConfig({
 | `collections`          | Collections to apply the Azure Blob adapter to                           |         |
 | `allowContainerCreate` | Whether or not to allow the container to be created if it does not exist | `false` |
 | `baseURL`              | Base URL for the Azure Blob storage account                              |         |
-| `connectionString`     | Azure Blob storage connection string                                     |         |
+| `connection`           | Azure Blob storage connection string or TokenCredential                  |         |
 | `containerName`        | Azure Blob storage container name                                        |         |

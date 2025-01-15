@@ -1,3 +1,4 @@
+import type { TokenCredential } from '@azure/identity'
 import type {
   Adapter,
   PluginOptions as CloudStoragePluginOptions,
@@ -33,9 +34,9 @@ export type AzureStorageOptions = {
   collections: Partial<Record<UploadCollectionSlug, Omit<CollectionOptions, 'adapter'> | true>>
 
   /**
-   * Azure Blob storage connection string
+   * Azure Blob storage connection string or TokenCredential for the blob storage client
    */
-  connectionString: string
+  connection: string | TokenCredential
 
   /**
    * Azure Blob storage container name
@@ -101,16 +102,16 @@ export const azureStorage: AzureStoragePlugin =
 function azureStorageInternal({
   allowContainerCreate,
   baseURL,
-  connectionString,
+  connection,
   containerName,
 }: AzureStorageOptions): Adapter {
   const createContainerIfNotExists = () => {
-    void getStorageClientFunc({ connectionString, containerName }).createIfNotExists({
+    void getStorageClientFunc({ baseURL, connection, containerName }).createIfNotExists({
       access: 'blob',
     })
   }
 
-  const getStorageClient = () => getStorageClientFunc({ connectionString, containerName })
+  const getStorageClient = () => getStorageClientFunc({ baseURL, connection, containerName })
 
   return ({ collection, prefix }): GeneratedAdapter => {
     return {
